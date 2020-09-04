@@ -18,7 +18,7 @@ public class Algorithms {
      */
 
     public static ArrayList<Integer> findShortestPath(ArrayList<Vertex> vertexs,
-                                                      ArrayList<ArrayList<Integer>> edges_weight,
+                                                      int[][] edges_weight,
                                                       int start,
                                                       int end,
                                                       ArrayList<Integer> pass_places ){

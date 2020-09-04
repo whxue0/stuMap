@@ -8,7 +8,8 @@ import java.util.LinkedList;
 public class Draw extends JPanel {
 
     ArrayList<Vertex> vertices = new ArrayList<>();
-    LinkedList<Integer> path = new LinkedList<>();
+    ArrayList<Integer> path = new ArrayList<>();
+    int[][] edges_weight = new int[27][27];  //边的权重表
     Boolean flag = true;
 
     public void paint(Graphics g) {
@@ -17,11 +18,11 @@ public class Draw extends JPanel {
         Graphics2D g2d = (Graphics2D)g;
         if(flag == true){
             drawPoint(vertices, g2d);
+            drawAllPath(edges_weight,g2d);
         }else{
             drawPoint(vertices, g2d);
             drawPath(path,g2d);
         }
-
 
     }
 
@@ -34,45 +35,49 @@ public class Draw extends JPanel {
     public void drawPoint(ArrayList<Vertex> vertices, Graphics2D g2d){
 
         g2d.setColor(Color.RED);//设置画图的颜色
-        g2d.fillOval(120, 240, 10, 10);//填充一个矩形
-        g2d.fillOval(200, 380, 10, 10);
-        g2d.fillOval(100, 500, 10, 10);
-        g2d.fillOval(350, 550, 10, 10);
-        g2d.fillOval(350, 420, 10, 10);
-        g2d.fillOval(280, 200, 10, 10);
-        g2d.fillOval(400, 150, 10, 10);
-        g2d.fillOval(400, 80, 10, 10);
-        g2d.fillOval(460, 240, 10, 10);
-        g2d.fillOval(620, 90, 10, 10);
-        g2d.fillOval(600, 200, 10, 10);
-        g2d.fillOval(750, 200, 10, 10);
-        g2d.fillOval(880, 250, 10, 10);
-        g2d.fillOval(960, 350, 10, 10);
-        g2d.fillOval(1050, 380, 10, 10);
-        g2d.fillOval(900, 350, 10, 10);
-        g2d.fillOval(780, 300, 10, 10);
-        g2d.fillOval(650, 260, 10, 10);
-        g2d.fillOval(470, 350, 10, 10);
-        g2d.fillOval(530, 370, 10, 10);
-        g2d.fillOval(720, 410, 10, 10);
-        g2d.fillOval(880, 450, 10, 10);
-        g2d.fillOval(750, 510, 10, 10);
-        g2d.fillOval(900, 530, 10, 10);
-        g2d.fillOval(980, 600, 10, 10);
-        g2d.fillOval(1120, 490, 10, 10);
-        g2d.fillOval(1030, 430, 10, 10);
-        g2d.fillOval(0, 0, 10, 10);
 
+        for(int i = 0 ; i<vertices.size() ; i++){
+            g2d.fillOval(vertices.get(i).getX(),vertices.get(i).getY(), 12,12);
+        }
 
     }
 
     //根据序列中的结点绘制路线
-    public void drawPath(LinkedList<Integer> path, Graphics2D g2d){
+    public void drawPath(ArrayList<Integer> path, Graphics2D g2d){
 
         g2d.setColor(Color.BLUE);//设置画图的颜色
         Stroke stroke = new BasicStroke(3.0f);
         g2d.setStroke(stroke);
-        g2d.drawLine(120,240,200,380);
+        for(int i = 0; i<path.size()-1 ;i++){
+            int n1 = path.get(i);
+            int n2 = path.get(i+1);
+            int x1 = vertices.get(n1).getX();
+            int y1 = vertices.get(n1).getY();
+            int x2 = vertices.get(n2).getX();
+            int y2 = vertices.get(n2).getY();
+            g2d.drawLine(x1+6,y1+6,x2+6,y2+6);
+        }
+
+    }
+
+    public  void drawAllPath(int[][] edges_weight,Graphics2D g2d){
+
+        g2d.setColor(Color.BLUE);//设置画图的颜色
+        Stroke stroke = new BasicStroke(2.5f);
+        g2d.setStroke(stroke);
+
+        for(int i =0 ;i<edges_weight.length;i++){
+            for(int j =i;j<edges_weight[i].length;j++){
+                if(edges_weight[i][j] > 0){
+                    int x1 = vertices.get(i).getX();
+                    int y1 = vertices.get(i).getY();
+                    int x2 = vertices.get(j).getX();
+                    int y2 = vertices.get(j).getY();
+                    g2d.drawLine(x1+6,y1+6,x2+5,y2+5);
+                }
+            }
+        }
+
 
     }
 
