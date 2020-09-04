@@ -8,15 +8,15 @@ public class TextControll {
 
 
     //test
-    public static void main(String[] args) {
-        ArrayList<Place> places = new ArrayList<>();        //地点列表
-        ArrayList<Vertex> vertexs = new ArrayList<>();      //顶点列表
-        //ArrayList<ArrayList<Integer>> edges_weight = new ArrayList<ArrayList<Integer>>();   //边的权重表
-
-        readPlace(places);
-        readVertex(vertexs);
-       //System.out.println(readEdgesWeight(edges_weight));
-    }
+//    public static void main(String[] args) {
+////        ArrayList<Place> places = new ArrayList<>();        //地点列表
+////        ArrayList<Vertex> vertexs = new ArrayList<>();      //顶点列表
+////        //ArrayList<ArrayList<Integer>> edges_weight = new ArrayList<ArrayList<Integer>>();   //边的权重表
+////
+////        readPlace(places);
+////        readVertex(vertexs);
+////       //System.out.println(readEdgesWeight(edges_weight));
+////    }
 
     //读取stu_map_places.txt文件数据建立地点表
     public static void readPlace(ArrayList<Place> places)  {
