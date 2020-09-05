@@ -31,6 +31,11 @@ public class Draw extends JPanel {
         this.repaint();
     }
 
+    public void displayallPath() {
+        flag = !flag;
+        this.repaint();
+    }
+
     //绘制每个顶点在图中的位置
     public void drawPoint(ArrayList<Vertex> vertices, Graphics2D g2d){
 
@@ -46,7 +51,7 @@ public class Draw extends JPanel {
     public void drawPath(ArrayList<Integer> path, Graphics2D g2d){
 
         g2d.setColor(Color.BLUE);//设置画图的颜色
-        Stroke stroke = new BasicStroke(3.0f);
+        Stroke stroke = new BasicStroke(4.0f);
         g2d.setStroke(stroke);
         for(int i = 0; i<path.size()-1 ;i++){
             int n1 = path.get(i);
@@ -62,7 +67,7 @@ public class Draw extends JPanel {
 
     public  void drawAllPath(int[][] edges_weight,Graphics2D g2d){
 
-        g2d.setColor(Color.BLUE);//设置画图的颜色
+        g2d.setColor(Color.BLACK);//设置画图的颜色
         Stroke stroke = new BasicStroke(2.5f);
         g2d.setStroke(stroke);
 

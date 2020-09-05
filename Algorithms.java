@@ -22,11 +22,20 @@ public class Algorithms {
                                                       int start,
                                                       int end,
                                                       ArrayList<Integer> pass_places ){
+        ArrayList<Integer> test_path = new ArrayList<>();
+        test_path.add(1);
+        test_path.add(2);
+        test_path.add(3);
+        test_path.add(10);
+        test_path.add(17);
+        test_path.add(19);
+        test_path.add(20);
+        test_path.add(21);
 
 
 
 
-        return new ArrayList<Integer>();
+        return test_path;
     }
 
 }
