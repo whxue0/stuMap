@@ -10,16 +10,18 @@ public class Draw extends JPanel {
     ArrayList<Vertex> vertices = new ArrayList<>();
     ArrayList<Integer> path = new ArrayList<>();
     int[][] edges_weight = new int[27][27];  //边的权重表
-    Boolean flag = true;
+    int flag = 1; //1表示只显示点，2表示显示全部路径，3表示显示所求最短路径
 
     public void paint(Graphics g) {
 
         super.paint(g);
         Graphics2D g2d = (Graphics2D)g;
-        if(flag == true){
+        if(flag == 1){
+            drawPoint(vertices, g2d);
+        }else if(flag == 2){
             drawPoint(vertices, g2d);
             drawAllPath(edges_weight,g2d);
-        }else{
+        }else if(flag == 3){
             drawPoint(vertices, g2d);
             drawPath(path,g2d);
         }
@@ -27,12 +29,14 @@ public class Draw extends JPanel {
     }
 
     public void displayPath() {
-        flag = false;
+        if(flag != 3)flag = 3;
+        else flag = 1;
         this.repaint();
     }
 
     public void displayallPath() {
-        flag = !flag;
+        if(flag != 2)flag = 2;
+        else flag = 1;
         this.repaint();
     }
 

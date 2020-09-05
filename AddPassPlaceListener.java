@@ -7,10 +7,10 @@ import java.util.ArrayList;
 public class AddPassPlaceListener implements ItemListener, ActionListener {
 
     ArrayList<Integer> pass_places = new ArrayList<Integer>();
-    JTextField text = new JTextField();
+    JTextArea text = new JTextArea();
     JComboBox jcmb;
 
-    AddPassPlaceListener(JTextField text, JComboBox pass_cmb){
+    AddPassPlaceListener(JTextArea text, JComboBox pass_cmb){
         this.jcmb =pass_cmb;
         this.text = text;
     }

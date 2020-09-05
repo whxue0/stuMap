@@ -2,8 +2,6 @@ package stuMap;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.*;
 
 public class Main  {
@@ -20,7 +18,7 @@ public class Main  {
     public static CmbListener cmb_end_listener = new CmbListener(cmb_end);
 
     public static JComboBox cmb_pass_places = new JComboBox();
-    public static JTextField show_pass_place = new JTextField(100);
+    public static JTextArea show_pass_place = new JTextArea(3,110);
     public static AddPassPlaceListener pass_listener = new AddPassPlaceListener(show_pass_place,cmb_pass_places);
 
 
@@ -39,17 +37,21 @@ public class Main  {
         frame.setLocation(200,0);
 
         //窗口宽度设为1280，匹配图片宽度
-        frame.setSize(1280,900);
+        frame.setSize(1280,1000);
 
         jpanel.vertices = vertices;
         jpanel.edges_weight = edges_weight;
         JLabel mapImage = new JLabel(new ImageIcon("src/stuMap/sources/stu_map_v2.jpg"));
         jpanel.add(mapImage);
 
+        Font font_label = new Font("黑体",Font.BOLD,18);
+
         //起点
-        JLabel start = new JLabel("     起点：");
+        JLabel start = new JLabel("   起点：");
+        start.setFont(font_label);
         //存下拉列表数据
-        cmb_start.addItem("-------请选择起点-------");
+        cmb_start.setFont(font_label);
+        cmb_start.addItem("------请选择起点------");
         for(int i = 0 ; i<places.size() ;i++){
             cmb_start.addItem(places.get(i).getName());
         }
@@ -58,9 +60,11 @@ public class Main  {
         jpanel.add(cmb_start);
 
         //终点
-        JLabel end = new JLabel("     终点：");
+        JLabel end = new JLabel("   终点：");
+        end.setFont(font_label);
         //存下拉列表数据
-        cmb_end.addItem("-------请选择终点-------");
+        cmb_end.setFont(font_label);
+        cmb_end.addItem("------请选择终点------");
         for(int i = 0 ; i<places.size() ;i++){
             cmb_end.addItem(places.get(i).getName());
         }
@@ -70,28 +74,34 @@ public class Main  {
 
 
         //途径地点
-        JLabel pass_places = new JLabel("     途径地点：");
-        cmb_pass_places.addItem("-------请选择途径地点-------");
+        JLabel pass_places = new JLabel("   途径地点：");
+        pass_places.setFont(font_label);
+        cmb_pass_places.setFont(font_label);
+        cmb_pass_places.addItem("------请选择途径地点------");
         for(int i = 0 ; i<places.size() ;i++){
             cmb_pass_places.addItem(places.get(i).getName());
         }
         cmb_pass_places.addItemListener(pass_listener);
         jpanel.add(pass_places);
         jpanel.add(cmb_pass_places);
-
-
-//        JButton add_pass_place = new JButton("添加途径地点");
-//        jpanel.add(add_pass_place);
+        show_pass_place.setFont(font_label);
+        show_pass_place.setLineWrap(true);
+        show_pass_place.setWrapStyleWord(true);
 
         jpanel.add(show_pass_place);
 
         JButton delete_place = new JButton("清空");
+        delete_place.setFont(font_label);
         delete_place.addActionListener(pass_listener);
         jpanel.add(delete_place);
 
         JButton get_min_path = new JButton("获取最短路径");
-        JTextArea show_min_path = new JTextArea(2,110);
+        get_min_path.setFont(font_label);
+        JTextArea show_min_path = new JTextArea(4,120);
+        show_min_path.setFont(font_label);
         show_min_path.setEditable(false);
+        show_min_path.setLineWrap(true);
+        show_min_path.setWrapStyleWord(true);
 
         get_min_path.addActionListener(event -> {
             int start_order = cmb_start_listener.order;
@@ -120,7 +130,7 @@ public class Main  {
                 LinkedList<Integer> one_vertex_places = vertices.get(result_verties.get(i)).getRelated_places();
                 if(one_vertex_places.size() == 1){
                     result_str += places.get(one_vertex_places.get(0)).getName();
-                    if(i != result_verties.size()-1) result_str += "->";
+                    if(i != result_verties.size()-1) result_str += " -> ";
                 }
                 else {
                     result_str += "[";
@@ -131,6 +141,7 @@ public class Main  {
                     if(i!=result_verties.size()-1) result_str += "] -> ";
                     else result_str += "]";
                 }
+
             }
             show_min_path.setText(result_str);
 
@@ -139,6 +150,7 @@ public class Main  {
         jpanel.add(show_min_path);
 
         JButton show_all_path = new JButton("显示所有路径");
+        show_all_path.setFont(font_label);
         show_all_path.addActionListener(event -> jpanel.displayallPath());
         jpanel.add(show_all_path);
 

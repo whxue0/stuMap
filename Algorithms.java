@@ -26,7 +26,17 @@ public class Algorithms {
                                                       int start,
                                                       int end,
                                                       ArrayList<Integer> pass_places ){
-        return new ArrayList<Integer>();
+        ArrayList<Integer> test_path = new ArrayList<>();
+        test_path.add(1);
+        test_path.add(2);
+        test_path.add(3);
+        test_path.add(10);
+        test_path.add(11);
+        test_path.add(13);
+        test_path.add(15);
+        test_path.add(21);
+        test_path.add(22);
+        return test_path;
     }
 
 }

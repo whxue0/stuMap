@@ -20,7 +20,7 @@ public class CmbListener implements ItemListener {
         if(e.getStateChange() == ItemEvent.SELECTED){
             name = jcmb.getSelectedItem().toString();
             order = jcmb.getSelectedIndex()-1;
-            System.out.println(name);
+            //System.out.println(name);
         }
 
     }
