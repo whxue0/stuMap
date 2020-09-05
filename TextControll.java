@@ -64,11 +64,11 @@ public class TextControll {
             while((oneLine = bfreader.readLine()) != null){
                 String[] items = oneLine.split(" ");
                 int order = Integer.parseInt(items[0]);
-                LinkedList<Integer> related_vertexs = new LinkedList<>();
+                LinkedList<Integer> related_places = new LinkedList<>();
                 for(int i = 1; i<items.length; i++){
-                    related_vertexs.add(Integer.parseInt(items[i]));
+                    related_places.add(Integer.parseInt(items[i]));
                 }
-                Vertex oneVertex = new Vertex(order,related_vertexs,0,0);
+                Vertex oneVertex = new Vertex(order,related_places,0,0);
                 vertices.add(oneVertex);
             }
             freader.close();

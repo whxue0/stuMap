@@ -4,8 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 
 public class Main  {
 
@@ -93,18 +92,45 @@ public class Main  {
         JButton get_min_path = new JButton("获取最短路径");
         JTextArea show_min_path = new JTextArea(2,110);
         show_min_path.setEditable(false);
+
         get_min_path.addActionListener(event -> {
             int start_order = cmb_start_listener.order;
             int end_order = cmb_end_listener.order;
+            //取得监听器获取的途径地点序号
             ArrayList<Integer> pass_places_list = pass_listener.pass_places;
-            ArrayList<Integer> result_node = Algorithms.findShortestPath(vertices,edges_weight,
-                                                                        start_order,end_order,pass_places_list);
-            jpanel.path = result_node;
+
+            HashSet<Integer> pass_verties = new HashSet<>();
+            for(int i = 0 ; i<pass_places_list.size();i++){
+                pass_verties.add(places.get(pass_places_list.get(i)).getTo_vertex_order());
+            }
+            Iterator<Integer> iterator = pass_verties.iterator();
+            ArrayList<Integer> pass_verties_list = new ArrayList<>();
+            while(iterator.hasNext()){
+                pass_verties_list.add(iterator.next());
+            }
+
+            ArrayList<Integer> result_verties = Algorithms.findShortestPath(edges_weight,
+                                                                        start_order,end_order,
+                                                                        pass_places_list);
+            jpanel.path = result_verties;
             jpanel.displayPath();
             String result_str = "";
-            for(int i = 0 ; i<result_node.size() ; i++){
-                result_str += places.get(i).getName();
-                if(i!=result_node.size()-1) result_str+=" -> ";
+            for(int i = 0 ; i<result_verties.size(); i++){
+
+                LinkedList<Integer> one_vertex_places = vertices.get(result_verties.get(i)).getRelated_places();
+                if(one_vertex_places.size() == 1){
+                    result_str += places.get(one_vertex_places.get(0)).getName();
+                    if(i != result_verties.size()-1) result_str += "->";
+                }
+                else {
+                    result_str += "[";
+                    for(int j= 0 ; j<one_vertex_places.size()-1;j++){
+                        result_str += places.get(one_vertex_places.get(j)).getName() + ",";
+                    }
+                    result_str += places.get(one_vertex_places.get(one_vertex_places.size()-1)).getName();
+                    if(i!=result_verties.size()-1) result_str += "] -> ";
+                    else result_str += "]";
+                }
             }
             show_min_path.setText(result_str);
 
