@@ -38,7 +38,7 @@ public class Main  {
 
         //窗口宽度设为1280，匹配图片宽度
         frame.setSize(1280,1000);
-
+        frame.setResizable(false);
         jpanel.vertices = vertices;
         jpanel.edges_weight = edges_weight;
         JLabel mapImage = new JLabel(new ImageIcon("src/stuMap/sources/stu_map_v2.jpg"));
