@@ -71,13 +71,13 @@ public class Draw extends JPanel {
 
     public  void drawAllPath(int[][] edges_weight,Graphics2D g2d){
 
-        g2d.setColor(Color.BLACK);//设置画图的颜色
-        Stroke stroke = new BasicStroke(2.5f);
+        g2d.setColor(Color.darkGray);//设置画图的颜色
+        Stroke stroke = new BasicStroke(3.0f);
         g2d.setStroke(stroke);
 
         for(int i =0 ;i<edges_weight.length;i++){
             for(int j =i;j<edges_weight[i].length;j++){
-                if(edges_weight[i][j] > 0){
+                if(edges_weight[i][j] < 99999 && i!=j){
                     int x1 = vertices.get(i).getX();
                     int y1 = vertices.get(i).getY();
                     int x2 = vertices.get(j).getX();

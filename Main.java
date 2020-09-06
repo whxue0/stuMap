@@ -29,6 +29,12 @@ public class Main  {
         TextControll.readEdgesWeight(edges_weight);//读顶点权值
 
         Main win = new Main();
+        //System.out.println(Integer.MAX_VALUE);
+//
+//        int p[][][] = new int [27][27][27];
+//        p = Algorithms.showShortestPath(edges_weight);
+        //culculateWeight(vertices,edges_weight); //输出权值可忽略
+
     }
 
     public Main(){
@@ -103,25 +109,39 @@ public class Main  {
         show_min_path.setLineWrap(true);
         show_min_path.setWrapStyleWord(true);
 
+
         get_min_path.addActionListener(event -> {
+            //获取监听器的开始和结束地点序号并转换成顶点序号
             int start_order = cmb_start_listener.order;
             int end_order = cmb_end_listener.order;
+            start_order = places.get(start_order).getTo_vertex_order();
+            end_order = places.get(end_order).getTo_vertex_order();
+
             //取得监听器获取的途径地点序号
             ArrayList<Integer> pass_places_list = pass_listener.pass_places;
-
+            //将地点序号转换成顶点序号并存入集合中。（去重）
             HashSet<Integer> pass_verties = new HashSet<>();
             for(int i = 0 ; i<pass_places_list.size();i++){
                 pass_verties.add(places.get(pass_places_list.get(i)).getTo_vertex_order());
             }
             Iterator<Integer> iterator = pass_verties.iterator();
+            //再将途径地点存入数组列表中。
             ArrayList<Integer> pass_verties_list = new ArrayList<>();
             while(iterator.hasNext()){
                 pass_verties_list.add(iterator.next());
             }
+            System.out.println(pass_verties_list.isEmpty());
 
-            ArrayList<Integer> result_verties = Algorithms.findShortestPath(edges_weight,
-                                                                        start_order,end_order,
-                                                                        pass_places_list);
+            //需要显示的路径的顶点序号列表
+            ArrayList<Integer> result_verties;
+
+            //如果途径结点为空，则直接计算并返回两点之间的最短路径
+            if(pass_places_list.isEmpty()){
+                result_verties = Algorithms.findShortestPath_two_verties(edges_weight,start_order,end_order);
+            }else{
+                result_verties = Algorithms.findShortestPath(edges_weight, start_order,end_order, pass_places_list);
+            }
+
             jpanel.path = result_verties;
             jpanel.displayPath();
             String result_str = "";
@@ -159,6 +179,22 @@ public class Main  {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+    }
+
+    //计算两点间的距离作为权值，已记录到文件中，可忽略，当顶点位置变动需要重新计算。
+    public static  void culculateWeight(ArrayList<Vertex> vertices,int[][] edges_weight){
+        for(int i = 0 ; i<edges_weight.length ; i++){
+            for(int j = i ; j<edges_weight.length ;j++){
+                if(edges_weight[i][j] > 0 && edges_weight[i][j] < 99999){
+                    int x1 = vertices.get(i).getX();
+                    int y1 = vertices.get(i).getY();
+                    int x2 = vertices.get(j).getX();
+                    int y2 = vertices.get(j).getY();
+                    int dis = (int)Math.sqrt((x1-x2)*(x1-x2)+(y1-y2)*(y1-y2));
+                    System.out.println(vertices.get(i).getOrder() + " " + vertices.get(j).getOrder() + " " + dis);
+                }
+            }
+        }
     }
 
 

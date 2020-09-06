@@ -129,7 +129,7 @@ public class TextControll {
             for(int i = 0; i<edges_weight.length;i++){
                 for(int j = 0; j<edges_weight[i].length; j++){
                     if(i==j) edges_weight[i][j] = 0;
-                    else edges_weight[i][j] = -1;
+                    else edges_weight[i][j] = 99999;
                 }
             }
 
