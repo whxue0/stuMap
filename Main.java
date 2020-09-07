@@ -29,11 +29,6 @@ public class Main  {
         TextControll.readEdgesWeight(edges_weight);//读顶点权值
 
         Main win = new Main();
-        //System.out.println(Integer.MAX_VALUE);
-//
-//        int p[][][] = new int [27][27][27];
-//        p = Algorithms.showShortestPath(edges_weight);
-        //culculateWeight(vertices,edges_weight); //输出权值可忽略
 
     }
 
@@ -182,7 +177,7 @@ public class Main  {
 
     }
 
-    //计算两点间的距离作为权值，已记录到文件中，可忽略，当顶点位置变动需要重新计算。
+    //计算两点间的距离作为权值，已记录到文件中，可忽略，当顶点位置变动才需要重新计算。
     public static  void culculateWeight(ArrayList<Vertex> vertices,int[][] edges_weight){
         for(int i = 0 ; i<edges_weight.length ; i++){
             for(int j = i ; j<edges_weight.length ;j++){
@@ -197,7 +192,6 @@ public class Main  {
             }
         }
     }
-
 
 }
 

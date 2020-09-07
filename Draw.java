@@ -3,7 +3,6 @@ package stuMap;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
 public class Draw extends JPanel {
 
@@ -12,6 +11,7 @@ public class Draw extends JPanel {
     int[][] edges_weight = new int[27][27];  //边的权重表
     int flag = 1; //1表示只显示点，2表示显示全部路径，3表示显示所求最短路径
 
+    //继承的paint方法
     public void paint(Graphics g) {
 
         super.paint(g);
@@ -28,11 +28,13 @@ public class Draw extends JPanel {
 
     }
 
+    //显示最短路径，更改flag，调用repaint。
     public void displayPath() {
         if(flag != 3)flag = 3;
         this.repaint();
     }
 
+    //显示所有路径，更改flag，调用repaint
     public void displayallPath() {
         if(flag != 2)flag = 2;
         else flag = 1;
@@ -43,7 +45,6 @@ public class Draw extends JPanel {
     public void drawPoint(ArrayList<Vertex> vertices, Graphics2D g2d){
 
         g2d.setColor(Color.RED);//设置画图的颜色
-
         for(int i = 0 ; i<vertices.size() ; i++){
             g2d.fillOval(vertices.get(i).getX(),vertices.get(i).getY(), 12,12);
         }
@@ -68,6 +69,7 @@ public class Draw extends JPanel {
 
     }
 
+    //绘制所有点与点之间的路径
     public  void drawAllPath(int[][] edges_weight,Graphics2D g2d){
 
         g2d.setColor(Color.darkGray);//设置画图的颜色
@@ -85,7 +87,6 @@ public class Draw extends JPanel {
                 }
             }
         }
-
 
     }
 

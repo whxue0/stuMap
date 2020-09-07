@@ -5,7 +5,7 @@ import java.util.LinkedList;
 //顶点类
 public class Vertex {
     private int order;  //顶点序号
-    private LinkedList<Integer> related_places; //与顶点相连的其他顶点
+    private LinkedList<Integer> related_places; //该顶点对应的地点
     private int x;  //在图中位置的x坐标
     private int y;  //在图中位置的y坐标
 

@@ -1,12 +1,10 @@
 package stuMap;
 
-import com.sun.org.apache.bcel.internal.generic.ANEWARRAY;
-
 import java.util.*;
 
 public class Algorithms {
 
-    static int count = 0;
+    static int count = 0; //用来计数暴力数组violent[count][]此时进行到的序号。
 
     /**
      * 跟据权值表，找出从开始位置到结束位置的最短路径
@@ -17,23 +15,16 @@ public class Algorithms {
      * @param pass_verties   途径结点序号
      * @return 按顺序返回一个列表表示路径（包含start 和 end）
      *
-     *     小明想从地点start去到地点end，但是他还要途经多个顶点，请帮小明找出一条最短路径吧。
-     *     pass_places是小明途径的地点列表,start、end、pass_places中的地点不会重复。
-     *     edges_weight[i][j] 表示地点i到地点j的距离，edges_weight[i][j] == edges_weight[j][i]，
-     * 且edges_weight[i][i]==0,edges_weight[i][j] == MAX 表示两点不直接可达。
-     *     结果需要返回小明需要的最短路径列表（返回的列表需要包含start和end）
-     *
      */
     public static ArrayList<Integer> findShortestPath(int[][] edges_weight,
                                                       int start,
                                                       int end,
                                                       ArrayList<Integer> pass_verties ){
 
-        //System.out.println("途径地点："+pass_verties.toString());
+        int [][]d = new int[27][27];           //d[i][j]表示i到j的最短路径的距离。
+        int [][][]p = new int[27][27][27];     //p[i][j][u]==1表示i到j的最短路径上经过u。
 
-        int [][]d = new int[27][27];
-        int [][][]p = new int[27][27][27];
-
+        //初始化d[][]和p[][][]
         for(int v = 0 ; v<27; v++){
             for(int w = 0 ; w<27;w++){
                 d[v][w] = edges_weight[v][w];
@@ -45,7 +36,8 @@ public class Algorithms {
                 }
             }
         }
-
+        //如果v到u，u再到w 的距离之和 小于 v到w的距离，那么令d[v][w] = d[v][u] + d[u][w]；
+        //并且让存在于vu和uw路径上的顶点也在vw中，即p[v][w][i] = (p[v][u][i] == 1 || p[u][w][i] == 1)?1:0;
         for(int u = 0; u < 27 ; u++){
             for(int v = 0 ; v<27; v++){
                 for(int w = 0 ; w <27 ; w++)
@@ -58,24 +50,12 @@ public class Algorithms {
             }
         }
 
-        int [][]two_places_dis = new int[pass_verties.size() + 2] [pass_verties.size()+2];
         ArrayList<Integer> all_verties = new ArrayList<>();
-
         all_verties.add(start);
         all_verties.addAll(pass_verties);
         all_verties.add(end);
 
-        for(int i = 0 ; i<two_places_dis.length ; i++){
-            for(int j = 0; j<two_places_dis.length ;j++){
-                two_places_dis[i][j] = d[all_verties.get(i)][all_verties.get(j)];
-//                for(int k = 0 ; k<27 ; k++){
-//                    if( p[all_verties.get(i)][all_verties.get(j)][k] == 1 && (pass_verties.contains(k)) && k!=all_verties.get(i) && k!=all_verties.get(j) ){
-//                        two_places_dis[i][j] = 0;
-//                    }
-//                }
-            }
-        }
-
+        //violent表示途径顶点数的阶乘
         int violent=1;
         for(int i =0 ; i<pass_verties.size();i++){
             violent*=i+1;
@@ -91,58 +71,32 @@ public class Algorithms {
         }
         count = 0;
         getAllOrder(0,pass_verties_arr.length-1,pass_verties_arr,violent_arr);
-//        for(int i =0 ; i<violent_arr.length ; i++){
-//            System.out.println(Arrays.toString(violent_arr[i]));
-//        }
 
-        //寻找最短的那条
+        //寻找最短的那条的顶点顺序
+        //获得的最短路径的顶点顺序，在violent_arr[min_total_index]中。
         int min_total_index = 0;
         int min_total_dis = 99999;
         int dis;
         for(int i = 0 ; i<violent_arr.length ; i++){
             dis = 0;
-            //System.out.println();
             for(int j = 0  ; j<violent_arr[i].length - 1 ;j++){
                 dis += d[violent_arr[i][j]][violent_arr[i][j+1]];
                 //System.out.print(d[violent_arr[i][j]][violent_arr[i][j+1]] + ",");
             }
-            //System.out.println();
-            //System.out.println(dis);
             if(dis<min_total_dis){
                 min_total_dis = dis;
                 min_total_index = i;
             }
         }
-        //System.out.println(Arrays.toString(violent_arr[min_total_index]));
 
-        //获得了最短路径的顶点顺序，在violent_arr[min_total_index]中。
-
-
-
-        //一直要最短
-//        ArrayList<Integer> test_result= new ArrayList<>();
-//        test_result.add(start);
-//        int first = start;
-//        for(int i = 0  ; i<all_verties.size() ;i++){
-//            int min = 99999;
-//            int min_index =0;
-//            for(int j = 1; j<all_verties.size();j++){
-//                if(two_places_dis[first][j] < min && two_places_dis[first][j] != 0 && !test_result.contains(j)){
-//                    min_index = j;
-//                    min = two_places_dis[first][j];
-//                }
-//            }
-//            first = min_index;
-//            test_result.add(first);
-//        }
-//
-//        System.out.println("一直要最短："+test_result.toString());
-
+        //结果存在result列表中。
         ArrayList<Integer> result  = new ArrayList<>();
+
+        //按照最短路径的顺序，求出每两个点的最短路径
         for(int i = 0 ; i<violent_arr[min_total_index].length-1 ; i++){
+
             int start_vertex = violent_arr[min_total_index][i];
             int end_vertex = violent_arr[min_total_index][i+1];
-            //System.out.println(start_vertex + " -- >" + end_vertex);
 
             ArrayList<Integer> two_verties = new ArrayList<>();
             for(int j = 0 ; j<27; j++){
@@ -150,9 +104,12 @@ public class Algorithms {
                     two_verties.add(j);
                 }
             }
+
             two_verties.remove((Object)start_vertex);
             two_verties.remove((Object)end_vertex);
+
             result.add(start_vertex);
+
             for(int l = 0 ; l<two_verties.size();l++){
                 for(int m = 0 ; m<27 ; m++){
                     if( edges_weight[start_vertex][m]<99999 && two_verties.contains(m) && !result.contains(m)) {
@@ -164,21 +121,20 @@ public class Algorithms {
             }
 
         }
-        result.add(end);
-        //System.out.println(result.toString());
 
+        result.add(end);//还要添加终点
 
         return result;
 
     }
 
-
-
-
-
-
-
-    //返回点到点的最短距离包含地点的数组
+    /**
+     * 返回点到点的最短距离包含地点的数组
+     * @param edges_weight
+     * @param start
+     * @param end
+     * @return
+     */
     public static ArrayList<Integer> findShortestPath_two_verties(int[][] edges_weight, int start, int end){
 
         int [][]d = new int[27][27];
@@ -214,7 +170,6 @@ public class Algorithms {
                 two_verties.add(i);
             }
         }
-        //System.out.println(two_verties.toString());
 
         ArrayList<Integer> result  = new ArrayList<>();
         two_verties.remove((Object)start);
@@ -231,24 +186,19 @@ public class Algorithms {
             }
         }
         result.add(end);
-        //System.out.println(result.toString());
 
         return result;
     }
 
-    //数组全排列
-//    void  permutation(int[][] violent_arr, int[] num, int index){
-//        if(index >= num.length ){
-//            violent_arr.
-//        }
-//        for(int i = index ; i<num.length ; i++){
-//            temp
-//        }
-//    }
-
+    /**
+     * 求array数组的全排列，并把所有全排列结果存到violent_arr中。
+     * @param begin array数组开始索引
+     * @param end array数组结束索引
+     * @param array 需要求阶乘的数组
+     * @param violent_arr 存入阶乘结果的数组
+     */
     public static void getAllOrder(int begin, int end,int[]array,int[][]violent_arr) {
         if (begin == end) {
-            //violent_arr[count] = array;
             for(int i = 1 ; i<violent_arr[0].length-1 ; i++){
                 violent_arr[count][i] = array[i-1];
             }
@@ -262,6 +212,13 @@ public class Algorithms {
             }
         }
     }
+
+    /**
+     * 交换数组的两个数
+     * @param from
+     * @param to
+     * @param array
+     */
     public static void swap(int from, int to,int[] array) {
         // 这里应该加上各种防止无效交换的情况
         // 比如位置相同，或者2个位置的数据相同
@@ -271,10 +228,6 @@ public class Algorithms {
         int tmp = array[from];
         array[from] = array[to];
         array[to] = tmp;
-    }
-    public static void check() {
-        // 排列拿到了，可以进行你的判断了。
-        //System.out.println(Arrays.toString(array));
     }
 
 }
