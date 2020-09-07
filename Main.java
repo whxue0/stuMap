@@ -148,11 +148,16 @@ public class Main  {
             ArrayList<Integer> result_verties;
 
             //如果途径结点为空，则直接计算并返回两点之间的最短路径
-            if(pass_places_list.isEmpty()){
-                result_verties = Algorithms.findShortestPath_two_verties(edges_weight,start_order,end_order);
-            }else{
-                result_verties = Algorithms.findShortestPath(edges_weight, start_order,end_order, pass_verties_list);
-            }
+            //此算法有bug
+//            if(pass_places_list.isEmpty()){
+//                result_verties = Algorithms.findShortestPath_two_verties(edges_weight,start_order,end_order);
+//            }else{
+//                result_verties = Algorithms.findShortestPath(edges_weight, start_order,end_order, pass_verties_list);
+//            }
+
+            //更快的最短路径算法
+            result_verties = Algorithms2.findShortestPath(edges_weight,start_order,end_order,pass_verties_list);
+
 
             //将结果传给绘图对象
             jpanel.path = result_verties;

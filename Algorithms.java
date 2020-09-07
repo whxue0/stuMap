@@ -82,7 +82,6 @@ public class Algorithms {
             dis = 0;
             for(int j = 0  ; j<violent_arr[i].length - 1 ;j++){
                 dis += d[violent_arr[i][j]][violent_arr[i][j+1]];
-                //System.out.print(d[violent_arr[i][j]][violent_arr[i][j+1]] + ",");
             }
             if(dis<min_total_dis){
                 min_total_dis = dis;

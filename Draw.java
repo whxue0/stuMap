@@ -24,6 +24,7 @@ public class Draw extends JPanel {
         }else if(flag == 3){
             drawPoint(vertices, g2d);
             drawPath(path,g2d);
+            //drawAllPath(edges_weight,g2d);
         }
 
     }
