@@ -30,7 +30,6 @@ public class Draw extends JPanel {
 
     public void displayPath() {
         if(flag != 3)flag = 3;
-        else flag = 1;
         this.repaint();
     }
 

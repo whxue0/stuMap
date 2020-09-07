@@ -119,6 +119,7 @@ public class Main  {
 
             //取得监听器获取的途径地点序号
             ArrayList<Integer> pass_places_list = pass_listener.pass_places;
+            //System.out.println("未去重的地点序号"+ pass_places_list.toString());
             //将地点序号转换成顶点序号并存入集合中。（去重）
             HashSet<Integer> pass_verties = new HashSet<>();
             for(int i = 0 ; i<pass_places_list.size();i++){
@@ -130,7 +131,7 @@ public class Main  {
             while(iterator.hasNext()){
                 pass_verties_list.add(iterator.next());
             }
-            System.out.println(pass_verties_list.isEmpty());
+            //System.out.println(pass_verties_list.isEmpty());
 
             //需要显示的路径的顶点序号列表
             ArrayList<Integer> result_verties;
@@ -139,7 +140,7 @@ public class Main  {
             if(pass_places_list.isEmpty()){
                 result_verties = Algorithms.findShortestPath_two_verties(edges_weight,start_order,end_order);
             }else{
-                result_verties = Algorithms.findShortestPath(edges_weight, start_order,end_order, pass_places_list);
+                result_verties = Algorithms.findShortestPath(edges_weight, start_order,end_order, pass_verties_list);
             }
 
             jpanel.path = result_verties;
