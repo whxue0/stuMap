@@ -5,7 +5,7 @@ import java.util.*;
 public class Algorithms {
 
     static int count = 0; //用来计数暴力数组violent[count][]此时进行到的序号。
-
+    final static int verties_num = 27; //顶点个数
     /**
      * 跟据权值表，找出从开始位置到结束位置的最短路径
      * 且途中需要经过pass_places里面的地点，需要按顺序返回经过的各个顶点序号
@@ -21,14 +21,15 @@ public class Algorithms {
                                                       int end,
                                                       ArrayList<Integer> pass_verties ){
 
-        int [][]d = new int[27][27];           //d[i][j]表示i到j的最短路径的距离。
-        int [][][]p = new int[27][27][27];     //p[i][j][u]==1表示i到j的最短路径上经过u。
+        int [][]d = new int[verties_num][verties_num]; //d[i][j]表示i到j的最短路径的距离。
+        //p[i][j][u]==1表示i到j的最短路径上经过u，等于0反之。
+        int [][][]p = new int[verties_num][verties_num][verties_num];
 
         //初始化d[][]和p[][][]
-        for(int v = 0 ; v<27; v++){
-            for(int w = 0 ; w<27;w++){
+        for(int v = 0 ; v<verties_num; v++){
+            for(int w = 0 ; w<verties_num;w++){
                 d[v][w] = edges_weight[v][w];
-                for(int u = 0; u<27; u++){
+                for(int u = 0; u<verties_num; u++){
                     if(d[v][w] < 99999){
                         p[v][w][v] = 1;
                         p[v][w][w] = 1;
@@ -38,12 +39,12 @@ public class Algorithms {
         }
         //如果v到u，u再到w 的距离之和 小于 v到w的距离，那么令d[v][w] = d[v][u] + d[u][w]；
         //并且让存在于vu和uw路径上的顶点也在vw中，即p[v][w][i] = (p[v][u][i] == 1 || p[u][w][i] == 1)?1:0;
-        for(int u = 0; u < 27 ; u++){
-            for(int v = 0 ; v<27; v++){
-                for(int w = 0 ; w <27 ; w++)
+        for(int u = 0; u < verties_num ; u++){
+            for(int v = 0 ; v<verties_num; v++){
+                for(int w = 0 ; w <verties_num ; w++)
                     if(d[v][u]+d[u][w] < d[v][w]){
                         d[v][w] = d[v][u] + d[u][w];
-                        for(int i = 0 ; i<27 ; i++){
+                        for(int i = 0 ; i<verties_num ; i++){
                             p[v][w][i] = (p[v][u][i] == 1 || p[u][w][i] == 1)?1:0;
                         }
                     }
@@ -72,7 +73,7 @@ public class Algorithms {
         count = 0;
         getAllOrder(0,pass_verties_arr.length-1,pass_verties_arr,violent_arr);
 
-        //寻找最短的那条的顶点顺序
+        //计算所有排序的路径长度，寻找最短的那条的顶点顺序
         //获得的最短路径的顶点顺序，在violent_arr[min_total_index]中。
         int min_total_index = 0;
         int min_total_dis = 99999;
@@ -99,7 +100,7 @@ public class Algorithms {
             int end_vertex = violent_arr[min_total_index][i+1];
 
             ArrayList<Integer> two_verties = new ArrayList<>();
-            for(int j = 0 ; j<27; j++){
+            for(int j = 0 ; j<verties_num; j++){
                 if(p[start_vertex][end_vertex][j] == 1) {
                     two_verties.add(j);
                 }
@@ -111,7 +112,7 @@ public class Algorithms {
             result.add(start_vertex);
 
             for(int l = 0 ; l<two_verties.size();l++){
-                for(int m = 0 ; m<27 ; m++){
+                for(int m = 0 ; m<verties_num ; m++){
                     if( edges_weight[start_vertex][m]<99999 && two_verties.contains(m) && !result.contains(m)) {
                         start_vertex = m;
                         result.add(m);
@@ -137,13 +138,13 @@ public class Algorithms {
      */
     public static ArrayList<Integer> findShortestPath_two_verties(int[][] edges_weight, int start, int end){
 
-        int [][]d = new int[27][27];
-        int [][][]p = new int[27][27][27];
+        int [][]d = new int[verties_num][verties_num];
+        int [][][]p = new int[verties_num][verties_num][verties_num];
 
-        for(int v = 0 ; v<27; v++){
-            for(int w = 0 ; w<27;w++){
+        for(int v = 0 ; v<verties_num; v++){
+            for(int w = 0 ; w<verties_num;w++){
                 d[v][w] = edges_weight[v][w];
-                for(int u = 0; u<27; u++){
+                for(int u = 0; u<verties_num; u++){
                     if(d[v][w] < 99999){
                         p[v][w][v] = 1;
                         p[v][w][w] = 1;
@@ -152,33 +153,33 @@ public class Algorithms {
             }
         }
 
-        for(int u = 0; u < 27 ; u++){
-            for(int v = 0 ; v<27; v++){
-                for(int w = 0 ; w <27 ; w++)
+        for(int u = 0; u < verties_num ; u++){
+            for(int v = 0 ; v<verties_num; v++){
+                for(int w = 0 ; w <verties_num ; w++)
                     if(d[v][u]+d[u][w] < d[v][w]){
                         d[v][w] = d[v][u] + d[u][w];
-                        for(int i = 0 ; i<27 ; i++){
+                        for(int i = 0 ; i<verties_num ; i++){
                             p[v][w][i] = (p[v][u][i] == 1 || p[u][w][i] == 1)?1:0;
                         }
                     }
             }
         }
 
-        ArrayList<Integer> two_verties = new ArrayList<>();
-        for(int i = 0 ; i<27; i++){
+        ArrayList<Integer> two_verties = new ArrayList<>(); //存储两个顶点最短路径经过的顶点
+        for(int i = 0 ; i<verties_num; i++){
             if(p[start][end][i] == 1) {
                 two_verties.add(i);
             }
         }
-
-        ArrayList<Integer> result  = new ArrayList<>();
         two_verties.remove((Object)start);
         two_verties.remove((Object)end);
-        result.add(start);
+
+        ArrayList<Integer> result  = new ArrayList<>(); //结果路径列表
+        result.add(start);  //添加起点
+
         for(int l = 0 ; l<two_verties.size();l++){
-            for(int i = 0 ; i<27 ; i++){
+            for(int i = 0 ; i<verties_num ; i++){
                 if( edges_weight[start][i]<99999 && two_verties.contains(i) && !result.contains(i)) {
-                    System.out.print(i+",");
                     start = i;
                     result.add(i);
                     break;
