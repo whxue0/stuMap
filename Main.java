@@ -144,50 +144,66 @@ public class Main  {
                 pass_verties_list.add(iterator.next());
             }
 
-            //result_verties为需要显示的路径的顶点序号列表
-            ArrayList<Integer> result_verties;
+            //如果途径顶点包含起点或者终点，那么显示提示信息并清空文本域，还有清除监听器中的列表
+            if(pass_verties_list.contains(start_order) || pass_verties_list.contains(end_order)){
 
-            //如果途径结点为空，则直接计算并返回两点之间的最短路径
-            //此算法有bug
+                JOptionPane jop = new JOptionPane();
+                jop.showMessageDialog(null, "途径地点不能包括起点和终点，请重新输入！");
+                show_pass_place.setText("");
+                pass_listener.pass_places.clear();
+
+            }else{
+
+                //result_verties为需要显示的路径的顶点序号列表
+                ArrayList<Integer> result_verties;
+
+                //如果途径结点为空，则直接计算并返回两点之间的最短路径
+                //此算法有bug
 //            if(pass_places_list.isEmpty()){
 //                result_verties = Algorithms.findShortestPath_two_verties(edges_weight,start_order,end_order);
 //            }else{
 //                result_verties = Algorithms.findShortestPath(edges_weight, start_order,end_order, pass_verties_list);
 //            }
 
-            //更快的最短路径算法
-            result_verties = Algorithms2.findShortestPath(edges_weight,start_order,end_order,pass_verties_list);
 
 
-            //将结果传给绘图对象
-            jpanel.path = result_verties;
-            //显示路径
-            jpanel.displayPath();
+                //更快的最短路径算法，不过当pass_verties_list包含起点或终点时会出错
+                result_verties = Algorithms2.findShortestPath(edges_weight,start_order,end_order,pass_verties_list);
 
-            //文字显示最短路径，用字符串result_str存储
-            String result_str = "";
-            for(int i = 0 ; i<result_verties.size(); i++){
-                //用一个链表存储一个顶点的代表的地点
-                LinkedList<Integer> one_vertex_places = vertices.get(result_verties.get(i)).getRelated_places();
-                //如果该顶点只表示一个地点，加入该地点到字符串中。
-                if(one_vertex_places.size() == 1){
-                    result_str += places.get(one_vertex_places.get(0)).getName();
-                    if(i != result_verties.size()-1) result_str += " -> ";
-                }
-                //否则需要加入该顶点包含的所有地点，以数组形式呈现。
-                else {
-                    result_str += "[";
-                    for(int j= 0 ; j<one_vertex_places.size()-1;j++){
-                        result_str += places.get(one_vertex_places.get(j)).getName() + ",";
+
+                //将结果传给绘图对象
+                jpanel.path = result_verties;
+                //显示路径
+                jpanel.displayPath();
+
+                //文字显示最短路径，用字符串result_str存储
+                String result_str = "";
+                for(int i = 0 ; i<result_verties.size(); i++){
+                    //用一个链表存储一个顶点的代表的地点
+                    LinkedList<Integer> one_vertex_places = vertices.get(result_verties.get(i)).getRelated_places();
+                    //如果该顶点只表示一个地点，加入该地点到字符串中。
+                    if(one_vertex_places.size() == 1){
+                        result_str += places.get(one_vertex_places.get(0)).getName();
+                        if(i != result_verties.size()-1) result_str += " -> ";
                     }
-                    result_str += places.get(one_vertex_places.get(one_vertex_places.size()-1)).getName();
-                    if(i!=result_verties.size()-1) result_str += "] -> ";
-                    else result_str += "]";
+                    //否则需要加入该顶点包含的所有地点，以数组形式呈现。
+                    else {
+                        result_str += "[";
+                        for(int j= 0 ; j<one_vertex_places.size()-1;j++){
+                            result_str += places.get(one_vertex_places.get(j)).getName() + ",";
+                        }
+                        result_str += places.get(one_vertex_places.get(one_vertex_places.size()-1)).getName();
+                        if(i!=result_verties.size()-1) result_str += "] -> ";
+                        else result_str += "]";
+                    }
+
                 }
+                //设置文本域内容
+                show_min_path.setText(result_str);
 
             }
-            //设置文本域内容
-            show_min_path.setText(result_str);
+
+
 
         });//监听器对象
 
