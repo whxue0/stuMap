@@ -12,6 +12,6 @@
 点击显示所有路径即可显示所有路径。
 
 ## 项目展示
-![image](https://github.com/stuMap/show-image/java_G9I3PURigR.png)
+![image](https://github.com/whxue0/stuMap/blob/master/show-image/java_G9I3PURigR.png)
 
-![image](https://github.com/stuMap/show-image/java_IrCU38lXQX.png)
+![image](https://github.com/whxue0/stuMap/blob/master/show-image/java_IrCU38lXQX.png)
