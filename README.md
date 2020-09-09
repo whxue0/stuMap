@@ -10,3 +10,8 @@
 ## 项目功能
 输入起点、终点、添加途经地点，点击获取最短路径，即可获得一条最短路径。
 点击显示所有路径即可显示所有路径。
+
+## 项目展示
+![image](https://github.com/stuMap/show-image/java_G9I3PURigR.png)
+
+![image](https://github.com/stuMap/show-image/java_IrCU38lXQX.png)
