@@ -32,9 +32,20 @@ public class AddPassPlaceListener implements ItemListener, ActionListener {
     }
 
     @Override
-    //清空按钮按下，清楚pass_places所有元素，并将文本域清空
+    //清空按钮按下，清楚pass_places所有元素，并将文本域清空，撤销按钮按下，清空一个元素
     public void actionPerformed(ActionEvent e) {
-        pass_places.clear();
-        text.setText("");
+        if(e.getActionCommand().toString().equals("清空") || pass_places.size() == 0){
+            pass_places.clear();
+            text.setText("");
+        }
+        else if(e.getActionCommand().toString().equals("撤销")){
+            pass_places.remove(pass_places.size()-1);
+            String[] newTextGroup = text.getText().split(",");
+            String newText = "";
+            for(int i = 0; i < newTextGroup.length-1; i++){
+                newText += newTextGroup[i] + ",";
+            }
+            text.setText(newText);
+        }
     }
 }

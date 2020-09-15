@@ -103,6 +103,13 @@ public class Main  {
         show_pass_place.setEditable(false);   //设置途径地点文本域不可编辑
         //添加文本域到面板
         jpanel.add(show_pass_place);
+
+        //撤销按钮
+        JButton cancel_place = new JButton("撤销");
+        cancel_place.setFont(font_label);
+        //注册监听器
+        cancel_place.addActionListener(pass_listener);
+
         //清空按钮
         JButton delete_place = new JButton("清空");
         delete_place.setFont(font_label);
@@ -110,6 +117,7 @@ public class Main  {
         delete_place.addActionListener(pass_listener);
         //添加按钮到面板
         jpanel.add(delete_place);
+        jpanel.add(cancel_place);
         //获取最短路径按钮
         JButton get_min_path = new JButton("获取最短路径");
         get_min_path.setFont(font_label);
